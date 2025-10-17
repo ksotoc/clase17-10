@@ -21,20 +21,20 @@ fetch('https://jsonplaceholder.typicode.com/posts')
 fetch('https://pokeapi.co/api/v2/pokemon')
     .then(response => response.json())
     .then(data => {
-        const promesas = r.results.map(poke => 
+        const promesas = data.results.map(poke => 
             fetch(poke.url)
-            .then(r2 = r2.json())
+            .then(r2 => r2.json())
         )
         Promise.all(promesas)
             .then(d => {
-                const filtrado = data.map(pk => ({
+                const filtrado = d.map(pk => ({
                 nombre: pk.name,
                 id: pk.id,
                 altura: pk.height,
                 peso: pk.weight
             }))
-            console.log(d)
+            console.log(filtrado)
         })
-        
+        .catch(e => console.error('Error: ', e))
     })
     .catch(e => console.error('Error: ', e)) 
